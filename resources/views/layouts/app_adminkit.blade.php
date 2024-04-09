@@ -240,7 +240,7 @@
                                     <span class="text-dark">{{ auth()->user()->name }}</span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end">
-                                    <a class="dropdown-item" href="{{ route('userprofil.edit', 0) }}"><i
+                                    <a class="dropdown-item" href="{{ route('userprofile.edit', 0) }}"><i
                                             class="align-middle me-1" data-feather="user"></i> Profile</a>
                                     <a class="dropdown-item" href="#"><i class="align-middle me-1"
                                             data-feather="pie-chart"></i> Analytics</a>

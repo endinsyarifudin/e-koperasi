@@ -22,7 +22,7 @@
                 <div class="col-6 ps-1 pe-1">
                     <ul class="list-unstyled">
                         <li>
-                            <a href="#">
+                            <a href="{{ route('userprofile.index') }}">
                                 <i data-acorn-icon="user" class="me-2" data-acorn-size="17"></i>
                                 <span class="align-middle">User Info</span>
                             </a>
@@ -37,7 +37,7 @@
                 <div class="col-6 pe-1 ps-1">
                     <ul class="list-unstyled">
                         <li>
-                            <a href="#">
+                            <a href="{{ route('logout-user') }}">
                                 <i data-acorn-icon="logout" class="me-2" data-acorn-size="17"></i>
                                 <span class="align-middle">Logout</span>
                             </a>
@@ -86,7 +86,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('koperasi.create') }}">
+                        <a href="{{ route('koperasi.index') }}">
                             <span class="label">Koperasi</span>
                         </a>
                     </li>
@@ -130,7 +130,149 @@
                     </li>
                 </ul>
             </li>
-
+            <li>
+                <a href="#pages" data-href="/Pages">
+                    <i data-acorn-icon="notebook-1" class="icon" data-acorn-size="18"></i>
+                    <span class="label">MASTER</span>
+                </a>
+                <ul id="pages">
+                    <li>
+                        <a href="{{ route('jenisneraca.index') }}">
+                            <span class="label">Neraca</span>
+                        </a>
+                        <ul id="authentication">
+                            <li>
+                                <a href="{{ route('jenisneraca.index') }}">
+                                    <span class="label">Jenis Neraca</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('itemneraca.index') }}">
+                                    <span class="label">Item Neraca</span>
+                                </a>
+                            </li>
+                            {{-- <li>
+                                <a href="/Pages/Authentication/ForgotPassword">
+                                    <span class="label">Forgot Password</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Pages/Authentication/ResetPassword">
+                                    <span class="label">Reset Password</span>
+                                </a>
+                            </li> --}}
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#blog" data-href="/Pages/Blog">
+                            <span class="label">Laba Rugi</span>
+                        </a>
+                        <ul id="blog">
+                            <li>
+                                <a href="/Pages/Blog/Home">
+                                    <span class="label">Home</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Pages/Blog/Grid">
+                                    <span class="label">Grid</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Pages/Blog/List">
+                                    <span class="label">List</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Pages/Blog/Detail">
+                                    <span class="label">Detail</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#miscellaneous" data-href="/Pages/Miscellaneous">
+                            <span class="label">Miscellaneous</span>
+                        </a>
+                        <ul id="miscellaneous">
+                            <li>
+                                <a href="/Pages/Miscellaneous/Faq">
+                                    <span class="label">Faq</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Pages/Miscellaneous/KnowledgeBase">
+                                    <span class="label">Knowledge Base</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Pages/Miscellaneous/Error">
+                                    <span class="label">Error</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Pages/Miscellaneous/ComingSoon">
+                                    <span class="label">Coming Soon</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Pages/Miscellaneous/Pricing">
+                                    <span class="label">Pricing</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Pages/Miscellaneous/Search">
+                                    <span class="label">Search</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Pages/Miscellaneous/Mailing">
+                                    <span class="label">Mailing</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Pages/Miscellaneous/Empty">
+                                    <span class="label">Empty</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#portfolio" data-href="/Pages/Portfolio">
+                            <span class="label">Portfolio</span>
+                        </a>
+                        <ul id="portfolio">
+                            <li>
+                                <a href="/Pages/Portfolio/Home">
+                                    <span class="label">Home</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Pages/Portfolio/Detail">
+                                    <span class="label">Detail</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#profile" data-href="/Pages/Profile">
+                            <span class="label">Profile</span>
+                        </a>
+                        <ul id="profile">
+                            <li>
+                                <a href="/Pages/Profile/Standard">
+                                    <span class="label">Standard</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Pages/Profile/Settings">
+                                    <span class="label">Settings</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
             <li>
                 <a href="#master" data-href="#master">
                     <i data-acorn-icon="notebook-1" class="icon" data-acorn-size="18"></i>
@@ -138,21 +280,32 @@
                 </a>
                 <ul id="master">
                     <li>
+                        <a href="{{ route('jenisneraca.index') }}">
+                            <span class="label">Neraca</span>
+                        </a>
+                        <ul>
+                            <li>
+                                <a href="{{ route('jenisneraca.index') }}">
+                                    <span class="label">Jenis Neraca</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                     <li>
-                        {{-- <a href="{{ route('admin.jenisKredit') }}"> --}}
-                        <span class="label">J. Penerimaan</span>
+                        <a href="{{ route('jenis.index') }}">
+                            <span class="label">Jenis</span>
                         </a>
                     </li>
                     <li>
-                        {{-- <a href="{{ route('admin.jenisDebet') }}"> --}}
-                        <span class="label">J. Pengeluaran</span>
+                        <a href="{{ route('rekening.index') }}">
+                            <span class="label">Rekening</span>
                         </a>
                     </li>
                     <li>
-                        {{-- <a href="{{ route('admin.rekening') }}"> --}}
+                        {{-- <a href="{{ route('admin.rekening') }}">
                         <span class="label">Data Rekening</span>
                         </a>
-                    </li>
+                    </li> --}}
                     <li>
                         <a href="/Pages/Blog/Detail">
                             <span class="label">Detail</span>

@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('koperasi_id')->index();
             $table->dateTime('tanggal');
-            $table->string('kategori')->nullable();
-            $table->string('keterangan');
-            $table->enum('jenis', ['pendapatan', 'pengeluaran']);
+            $table->enum('kategori', ['pendapatan', 'pengeluaran']);
+            $table->foreignId('jenis_id')->index();
+            $table->string('kode_trx')->nullable();
+            $table->string('uraian');
             $table->bigInteger('jumlah');
             $table->bigInteger('saldo_akhir');
             $table->foreignId('created_by')->index();

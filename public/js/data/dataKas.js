@@ -1,12 +1,3 @@
-/**
- *
- * BoxedVariations
- *
- * Interface.Plugins.Datatables.BoxedVariations page content scripts. Initialized from scripts.js file.
- *
- *
- */
-
 class BoxedVariations {
     constructor() {
         if (!jQuery().DataTable) {

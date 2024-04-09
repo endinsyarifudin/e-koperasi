@@ -47,7 +47,7 @@
                             <button type="button"
                                 class="btn btn-outline-primary btn-icon btn-icon-start w-100 w-md-auto add-datatable">
                                 <i data-acorn-icon="plus"></i>
-                                <span>Add New</span>
+                                <span>Buat Transaksi</span>
                             </button>
                             <!-- Add New Button End -->
 
@@ -63,16 +63,6 @@
                                     data-bs-offset="0,3" data-bs-toggle="dropdown" aria-haspopup="true"
                                     aria-expanded="false" data-submenu></button>
                                 <div class="dropdown-menu dropdown-menu-end">
-                                    <div class="dropdown dropstart dropdown-submenu">
-                                        <button class="dropdown-item dropdown-toggle tag-datatable caret-absolute disabled"
-                                            type="button">Tag</button>
-                                        <div class="dropdown-menu">
-                                            <button class="dropdown-item tag-done" type="button">Done</button>
-                                            <button class="dropdown-item tag-new" type="button">New</button>
-                                            <button class="dropdown-item tag-sale" type="button">Sale</button>
-                                        </div>
-                                    </div>
-                                    <div class="dropdown-divider"></div>
                                     <button class="dropdown-item disabled delete-datatable" type="button">Delete</button>
                                 </div>
                             </div>
@@ -203,8 +193,9 @@
                                     <th class="text-muted text-small text-uppercase" style="width: 7%;">No</th>
                                     <th class="text-muted text-small text-uppercase text-center" style="width: 8%;">
                                         Tanggal</th>
-                                    <th class="text-muted text-small text-uppercase">Kategori</th>
-                                    <th class="text-muted text-small text-uppercase">Keterangan</th>
+                                    <th class="text-muted text-small text-uppercase text-center">Kode TRX</th>
+                                    <th class="text-muted text-small text-uppercase text-center">Jenis</th>
+                                    <th class="text-muted text-small text-uppercase text-center">Uraian</th>
                                     <th class="text-muted text-small text-uppercase text-center">Kredit</th>
                                     <th class="text-muted text-small text-uppercase text-center">Debet</th>
                                     <th class="text-muted text-small text-uppercase text-center">Saldo</th>
@@ -225,7 +216,7 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="modalTitle">Add New</h5>
+                                <h5 class="modal-title" id="modalTitle">Buat Transaksi</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>

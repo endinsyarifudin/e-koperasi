@@ -1,29 +1,24 @@
 @php
-    $html_tag_data = ['scrollspy' => 'true'];
-    $title = '';
-    $description = 'Datatable responsive boxed variations with search.';
-    $breadcrumbs = [
-        '/' => 'Home',
-        '/Interface' => 'Interface',
-        '/Interface/Plugins' => 'Plugins',
-        '/Interface/Plugins/Datatables' => 'Datatables',
-    ];
+    $html_tag_data = [];
+    $title = $title;
+    $description = '';
+    $breadcrumbs = [];
 @endphp
 @extends('layout', ['html_tag_data' => $html_tag_data, 'title' => $title, 'description' => $description])
 
 @section('css')
-    <link rel="stylesheet" href="{{ asset('/css/vendor/datatables.min.css') }}" />
+    <link rel="stylesheet" href="/css/vendor/datatables.min.css" />
 @endsection
 
 @section('js_vendor')
-    <script src="{{ asset('/js/vendor/bootstrap-submenu.js') }}"></script>
-    <script src="{{ asset('/js/vendor/datatables.min.js') }}"></script>
-    <script src="{{ asset('/js/vendor/mousetrap.min.js') }}"></script>
+    <script src="/js/vendor/bootstrap-submenu.js"></script>
+    {{-- <script src="/js/vendor/datatables.min.js"></script> --}}
+    {{-- <script src="/js/vendor/mousetrap.min.js"></script> --}}
 @endsection
 
 @section('js_page')
-    <script src="{{ asset('/js/cs/datatable.extend.js') }}"></script>
-    <script src="{{ asset('/js/data/editableboxed_kas.js') }}"></script>
+    {{-- <script src="/js/cs/datatable.extend.js"></script>
+    <script src="/js/data/kas.editableboxed.js"></script> --}}
 @endsection
 
 @section('content')

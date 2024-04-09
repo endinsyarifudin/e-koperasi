@@ -16,11 +16,62 @@ namespace App\Models{
  * 
  *
  * @property int $id
+ * @property string $name
+ * @property string $kategori
+ * @property string|null $deskripsi
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Database\Factories\JenisFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|Jenis newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Jenis newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Jenis query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Jenis whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Jenis whereDeskripsi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Jenis whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Jenis whereKategori($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Jenis whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Jenis whereUpdatedAt($value)
+ */
+	class Jenis extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property int $id
+ * @property int $kategori_id
+ * @property string|null $akun
+ * @property string $jenis
+ * @property string $deskripsi
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\NeracaKategori $kategori
+ * @method static \Illuminate\Database\Eloquent\Builder|JenisNeraca newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|JenisNeraca newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|JenisNeraca query()
+ * @method static \Illuminate\Database\Eloquent\Builder|JenisNeraca whereAkun($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|JenisNeraca whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|JenisNeraca whereDeskripsi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|JenisNeraca whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|JenisNeraca whereJenis($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|JenisNeraca whereKategoriId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|JenisNeraca whereUpdatedAt($value)
+ */
+	class JenisNeraca extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property int $id
  * @property int $koperasi_id
  * @property \Illuminate\Support\Carbon $tanggal
- * @property string|null $kategori
- * @property string $keterangan
- * @property string $jenis
+ * @property string $kategori
+ * @property string|null $kode_trx
+ * @property int $jenis_id
+ * @property string $uraian
  * @property int $jumlah
  * @property int $saldo_akhir
  * @property int $created_by
@@ -35,14 +86,15 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Kas whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Kas whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Kas whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Kas whereJenis($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Kas whereJenisId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Kas whereJumlah($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Kas whereKategori($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Kas whereKeterangan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Kas whereKodeTrx($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Kas whereKoperasiId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Kas whereSaldoAkhir($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Kas whereTanggal($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Kas whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Kas whereUraian($value)
  */
 	class Kas extends \Eloquent {}
 }
@@ -78,10 +130,86 @@ namespace App\Models{
  * 
  *
  * @property int $id
+ * @property string|null $akun
+ * @property int $kategori_id
+ * @property int $jenis_id
+ * @property string $neraca_item
+ * @property string $deskripsi
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\JenisNeraca $jenisneraca
+ * @property-read \App\Models\NeracaKategori|null $kategori
+ * @method static \Database\Factories\NeracaItemFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|NeracaItem newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|NeracaItem newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|NeracaItem query()
+ * @method static \Illuminate\Database\Eloquent\Builder|NeracaItem whereAkun($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|NeracaItem whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|NeracaItem whereDeskripsi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|NeracaItem whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|NeracaItem whereJenisId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|NeracaItem whereKategoriId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|NeracaItem whereNeracaItem($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|NeracaItem whereUpdatedAt($value)
+ */
+	class NeracaItem extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property int $id
+ * @property string $kategori
+ * @property string $akun
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property \Illuminate\Support\Carbon $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|NeracaKategori newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|NeracaKategori newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|NeracaKategori query()
+ * @method static \Illuminate\Database\Eloquent\Builder|NeracaKategori whereAkun($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|NeracaKategori whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|NeracaKategori whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|NeracaKategori whereKategori($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|NeracaKategori whereUpdatedAt($value)
+ */
+	class NeracaKategori extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property int $id
+ * @property string $rekening
+ * @property string|null $no_rek
+ * @property string $deskripsi
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Database\Factories\RekeningFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|Rekening newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Rekening newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Rekening query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Rekening whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Rekening whereDeskripsi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Rekening whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Rekening whereNoRek($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Rekening whereRekening($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Rekening whereUpdatedAt($value)
+ */
+	class Rekening extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property int $id
  * @property int|null $koperasi_id
  * @property string|null $role
  * @property string $name
  * @property string $email
+ * @property string|null $nohp
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
  * @property string|null $remember_token
@@ -102,6 +230,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereKoperasiId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereNohp($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRole($value)

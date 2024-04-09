@@ -27,8 +27,9 @@ class KasController extends Controller
             'koperasi_id',
             'tanggal',
             'kategori',
-            'keterangan',
-            'jenis',
+            'kode_trx',
+            'jenis_id',
+            'uraian',
             'jumlah',
             'saldo_akhir',
             'created_by',
@@ -60,25 +61,25 @@ class KasController extends Controller
     }
 
 
-
     public function create()
     {
         $kas = new Kas();
+        $title = 'Transaksi Baru';
         $saldoAkhir = Kas::SaldoAkhir();
-        return view('form_kas', compact('kas', 'saldoAkhir'));
+        return view('form_kas', compact('kas', 'saldoAkhir', 'title'));
     }
 
     public function store(Request $request)
     {
         $requestData = $request->validate([
             'tanggal' => 'required|date',
-            'kategori' => 'nullable',
-            'keterangan' => 'required',
-            'jenis' => 'required|in:pendapatan,pengeluaran',
+            'kategori' => 'required|in:pendapatan,pengeluaran',
+            'jenis_id' => 'required',
+            'uraian' => 'required',
             'jumlah' => 'required|numeric',
         ]);
         $saldoAkhir = Kas::SaldoAkhir();
-        if ($requestData['jenis'] == 'pendapatan') {
+        if ($requestData['kategori'] == 'pendapatan') {
             $saldoAkhir += $requestData['jumlah'];
         } else {
             $saldoAkhir -= $requestData['jumlah'];

@@ -45,10 +45,11 @@ class EditableBoxed {
         this._datatable = jQuery("#datatableBoxed").DataTable({
             buttons: ["copy", "excel", "csv", "print"],
             responsive: true,
-
             info: true,
             paging: true,
             ajax: "/api/dataKas/",
+            processing: true,
+            serverSide: true,
             order: [], // Clearing default order
             sDom: '<"row"<"col-sm-12"<"table-container"<"card"<"card-body half-padding"t>>>>><"row"<"col-12 mt-3"p>>', // Hiding all other dom elements except table and pagination
             pageLength: 10,
@@ -80,12 +81,13 @@ class EditableBoxed {
                     },
                     className: "text-center",
                 },
-                { data: "kategori" },
-                { data: "keterangan" },
+                { data: "kode_trx" },
+                { data: "jenis_id" },
+                { data: "uraian" },
                 {
                     data: null,
                     render: function (data, type, row, meta) {
-                        if (row.jenis == "pendapatan") {
+                        if (row.kategori == "pendapatan") {
                             return row.jumlah.toLocaleString("id-ID");
                         } else {
                             return "";
@@ -96,7 +98,7 @@ class EditableBoxed {
                 {
                     data: null,
                     render: function (data, type, row, meta) {
-                        if (row.jenis == "pengeluaran") {
+                        if (row.kategori == "pengeluaran") {
                             return row.jumlah.toLocaleString("id-ID");
                         } else {
                             return "";

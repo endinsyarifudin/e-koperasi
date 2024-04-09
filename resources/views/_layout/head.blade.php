@@ -24,15 +24,17 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" />
 <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;700&display=swap" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="/font/CS-Interface/style.css" />
+<link rel="stylesheet" href="{{ asset('/font/CS-Interface/style.css') }}" />
 <!-- Font Tags End -->
 <!-- Vendor Styles Start -->
+
 <link rel="stylesheet" href="{{ asset('css/vendor/bootstrap.min.css') }}" />
 <link rel="stylesheet" href="{{ asset('css/vendor/OverlayScrollbars.min.css') }}" />
 
 @yield('css')
 <!-- Vendor Styles End -->
 <!-- Template Base Styles Start -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" href="{{ asset('css/styles.css') }}" />
 <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
 <!-- Template Base Styles End -->

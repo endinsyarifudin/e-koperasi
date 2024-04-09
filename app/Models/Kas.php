@@ -11,12 +11,10 @@ class Kas extends Model
     protected $table = 'kas';
     protected $guarded = [];
     protected $fillable = [
-        'koperasi_id', 'tanggal', 'kategori', 'keterangan', 'jenis', 'jumlah',
+        'koperasi_id', 'tanggal', 'kode_trx', 'kategori', 'jenis_id', 'uraian', 'jumlah',
         'saldo_akhir', 'created_by',
     ];
-    protected $casts = [
-        'tanggal' => 'datetime:d-m-Y H:i',
-    ];
+    protected $casts = ['tanggal' => 'datetime:d-m-Y H:i'];
 
     public function createdBy()
     {
