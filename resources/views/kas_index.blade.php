@@ -31,7 +31,8 @@
                         <!-- Title Start -->
                         <div class="col-12 col-md-7">
                             <h1 class="mb-0 pb-0 display-4" id="title">{{ $title }}</h1>
-                            @include('_layout.breadcrumb', ['breadcrumbs' => $breadcrumbs])
+                            <h5>{{ Auth::user()->koperasi->nama }}</h5>
+                            {{-- @include('_layout.breadcrumb', ['breadcrumbs' => $breadcrumbs]) --}}
                         </div>
                         <!-- Title End -->
 

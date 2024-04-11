@@ -24,26 +24,25 @@ class KasController extends Controller
 
     public function dataKas(Request $request)
     {
-        $userKoperasiId = auth()->user()->koperasi_id;
+        // $userKoperasiId = auth()->user()->koperasi_id;
 
         $rowLimit = isset($request->length) ? $request->length : 10;
         $offset = isset($request->start) ? $request->start : 0;
         $search = isset($request->search['value']) ? $request->search['value'] : '';
         $draw = isset($request->draw) ? $request->draw : 1;
 
-        $data = Kas::where('koperasi_id', $userKoperasiId)
-            ->select(
-                'id',
-                'koperasi_id',
-                'tanggal',
-                'kategori',
-                'kode_trx',
-                'jenis_id',
-                'uraian',
-                'jumlah',
-                'saldo_akhir',
-                'created_by'
-            );
+        $data = Kas::select(
+            'id',
+            'koperasi_id',
+            'tanggal',
+            'kategori',
+            'kode_trx',
+            'jenis_id',
+            'uraian',
+            'jumlah',
+            'saldo_akhir',
+            'created_by'
+        );
 
         if ($search != '') {
             $data->where('tanggal', 'like', '%' . $search . '%')
