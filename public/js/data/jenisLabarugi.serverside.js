@@ -5,27 +5,13 @@ class RowsServerSide {
             return;
         }
 
-        // Selected single row which will be edited
-        this._rowToEdit;
-
-        // Datatable instance
-        this._datatable;
-
-        // Edit or add state of the modal
-        this._currentState;
-
-        // Controls and select helper
-        this._datatableExtend;
-
-        // Add or edit modal
-        this._addEditModal;
-
-        // Datatable single item height
-        this._staticHeight = 62;
-
-        // Path to the api for getting and setting items
+        this._rowToEdit; // Selected single row which will be edited
+        this._datatable; // Datatable instance
+        this._currentState; // Edit or add state of the modal
+        this._datatableExtend; // Controls and select helper
+        this._addEditModal; // Add or edit modal
+        this._staticHeight = 62; // Datatable single item height
         this._apiPath = "http://localhost:8000";
-
         this._createInstance();
         this._addListeners();
         this._extend();
@@ -42,53 +28,14 @@ class RowsServerSide {
             processing: true,
             serverSide: true,
             responsive: true,
-            ajax: this._apiPath + "/api/dataKas/",
+            ajax: this._apiPath + "/api/jenislabarugi",
             sDom: '<"row"<"col-sm-12"<"table-container"t>r>><"row"<"col-12"p>>', // Hiding all other dom elements except table and pagination
             pageLength: 10,
             columns: [
-                {
-                    data: null,
-                    render: function (data, type, row, meta) {
-                        return meta.row + meta.settings._iDisplayStart + 1;
-                    },
-                },
-                {
-                    data: "tanggal",
-                    render: function (data, type, row, meta) {
-                        if (type === "display" || type === "filter") {
-                            var date = new Date(data);
-                            var day = date
-                                .getDate()
-                                .toString()
-                                .padStart(2, "0");
-                            var month = (date.getMonth() + 1)
-                                .toString()
-                                .padStart(2, "0");
-                            var year = date.getFullYear().toString();
-                            return day + "/" + month + "/" + year;
-                        } else {
-                            return data;
-                        }
-                    },
-                },
-                { data: "kategori" },
-                { data: "keterangan" },
-                {
-                    data: null,
-                    render: function (data, type, row, meta) {
-                        return row.jenis == "pendapatan" ? row.jumlah : "";
-                    },
-                    className: "text-end",
-                },
-                {
-                    data: null,
-                    render: function (data, type, row, meta) {
-                        return row.jenis == "pengeluaran" ? row.jumlah : "";
-                    },
-                    className: "text-end",
-                },
-                { data: "saldo_akhir", className: "text-end" },
-                { data: "created_by", className: "text-center" },
+                { data: "akun" },
+                { data: "jenis_labarugi" },
+                { data: "labarugi_kategori" },
+                { data: "deskripsi" },
                 {
                     data: null,
                     render: function (data, type, row, meta) {
@@ -112,46 +59,20 @@ class RowsServerSide {
             drawCallback: function (settings) {
                 _this._setInlineHeight();
             },
-            columnDefs: [
-                // Adding Name content as an anchor with a target #
-                // {
-                //     targets: 0,
-                //     render: function (data, type, row, meta) {
-                //         return (
-                //             '<a class="list-item-heading body" href="#">' +
-                //             data +
-                //             "</a>"
-                //         );
-                //     },
-                // },
-                // Adding Tag content as a span with a badge class
-                // {
-                //     targets: 6,
-                //     render: function (data, type, row, meta) {
-                //         return (
-                //             '<span class="badge bg-outline-primary">' +
-                //             data +
-                //             "</span>"
-                //         );
-                //     },
-                // },
-            ],
+            columnDefs: [],
         });
     }
 
     _addListeners() {
-        // Listener for confirm button on the edit/add modal
-        document
+        document // Listener for confirm button on the edit/add modal
             .getElementById("addEditConfirmButton")
             .addEventListener("click", this._addEditFromModalClick.bind(this));
-
         // Listener for add buttons
         document
             .querySelectorAll(".add-datatable")
             .forEach((el) =>
                 el.addEventListener("click", this._onAddRowClick.bind(this))
             );
-
         // Listener for delete buttons
         document
             .querySelectorAll(".delete-datatable")
@@ -206,6 +127,30 @@ class RowsServerSide {
         this._addEditModal = new bootstrap.Modal(
             document.getElementById("addEditModal")
         );
+        this._fetchNamaKategori();
+    }
+    _fetchNamaKategori() {
+        fetch(this._apiPath + "/api/namakatlabarugi")
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                const selectElement = document.getElementById("selectKategori");
+                data.forEach((kategoriLabarugi) => {
+                    const option = document.createElement("option");
+                    option.value = kategoriLabarugi.id;
+                    option.text = kategoriLabarugi.labarugi_kategori;
+                    selectElement.appendChild(option);
+                });
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+        this._datatableExtend.unCheckAllRows();
+        this._datatableExtend.controlCheckAll();
     }
 
     // Setting static height to datatable to prevent pagination movement when list is not full
@@ -257,25 +202,31 @@ class RowsServerSide {
     // Edit button inside th modal click
     _editRowFromModal() {
         const data = this._rowToEdit.data();
-        const formData = Object.assign(data, this._getFormData());
+        const formData = this._getFormData();
+        const id = data.id;
         this._addSpinner();
-        fetch(this._apiPath + "/products/update", {
+        fetch("/api/jenislabarugi/" + id, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(data),
+            body: JSON.stringify(formData),
         })
             .then((response) => {
-                response.json();
-                this._removeSpinner();
+                if (!response.ok) {
+                    throw new Error("Failed to update ");
+                }
+                return response.json();
             })
             .then((data) => {
+                this._removeSpinner();
                 this._datatable.draw();
             })
             .catch((error) => {
                 console.error("Error:", error);
+                this._removeSpinner();
             });
+
         this._datatableExtend.unCheckAllRows();
         this._datatableExtend.controlCheckAll();
     }
@@ -283,8 +234,9 @@ class RowsServerSide {
     // Add button inside th modal click
     _addNewRowFromModal() {
         const data = this._getFormData();
+        console.log(data); // Tambahkan console.log di sini untuk melihat data
         this._addSpinner();
-        fetch(this._apiPath + "/products/add", {
+        fetch(this._apiPath + "/api/jenislabarugi/create", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -292,14 +244,19 @@ class RowsServerSide {
             body: JSON.stringify(data),
         })
             .then((response) => {
-                response.json();
-                this._removeSpinner();
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
             })
             .then((data) => {
                 this._datatable.draw();
+                this._removeSpinner();
+                this._addEditModal.hide();
             })
             .catch((error) => {
                 console.error("Error:", error);
+                this._removeSpinner();
             });
         this._datatableExtend.unCheckAllRows();
         this._datatableExtend.controlCheckAll();
@@ -309,29 +266,32 @@ class RowsServerSide {
     _onDeleteClick() {
         const selected = this._datatableExtend.getSelectedRows();
         const data = selected.data();
+        const idsToDelete = data.map((item) => item.id);
+
         this._addSpinner();
-        const idsToDelte = { ids: [] };
-        for (let i = 0; i < data.length; i++) {
-            idsToDelte.ids.push(data[i].id);
-        }
-        fetch(this._apiPath + "/products/delete", {
+
+        fetch(this._apiPath + "/api/jenislabarugi/" + idsToDelete.join(","), {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(idsToDelte),
         })
             .then((response) => {
-                response.json();
-                this._removeSpinner();
+                if (!response.ok) {
+                    throw new Error("Failed to delete barang");
+                }
+                return response.json();
             })
             .then((data) => {
+                this._removeSpinner();
                 console.log("Success:", data);
                 this._datatable.draw();
             })
             .catch((error) => {
                 console.error("Error:", error);
+                this._removeSpinner();
             });
+
         this._datatableExtend.unCheckAllRows();
         this._datatableExtend.controlCheckAll();
     }
@@ -352,64 +312,32 @@ class RowsServerSide {
     // Filling the modal form data
     _setForm() {
         const data = this._rowToEdit.data();
-        document.querySelector("#addEditModal input[name=Name]").value =
-            data.Name;
-        document.querySelector("#addEditModal input[name=Sales]").value =
-            data.Sales;
-        document.querySelector("#addEditModal input[name=Stock]").value =
-            data.Stock;
-        if (
-            document.querySelector(
-                "#addEditModal " +
-                    'input[name=Category][value="' +
-                    data.Category +
-                    '"]'
-            )
-        ) {
-            document.querySelector(
-                "#addEditModal " +
-                    'input[name=Category][value="' +
-                    data.Category +
-                    '"]'
-            ).checked = true;
-        }
-        if (
-            document.querySelector(
-                "#addEditModal " + 'input[name=Tag][value="' + data.Tag + '"]'
-            )
-        ) {
-            document.querySelector(
-                "#addEditModal " + 'input[name=Tag][value="' + data.Tag + '"]'
-            ).checked = true;
-        }
+        document.querySelector("#addEditModal select[name=kategori_id]").value =
+            data.kategori_id;
+        document.querySelector(
+            "#addEditModal input[name=jenis_labarugi]"
+        ).value = data.jenis_labarugi;
+        document.querySelector("#addEditModal input[name=akun]").value =
+            data.akun;
+        document.querySelector("#addEditModal input[name=deskripsi]").value =
+            data.deskripsi;
     }
 
     // Getting form values from the fields to pass to datatable
     _getFormData() {
         const data = {};
-        data.Name = document.querySelector(
-            "#addEditModal input[name=Name]"
+        data.kategori_id = document.querySelector(
+            "#addEditModal select[name=kategori_id]"
         ).value;
-        data.Sales = document.querySelector(
-            "#addEditModal input[name=Sales]"
+        data.jenis_labarugi = document.querySelector(
+            "#addEditModal input[name=jenis_labarugi]"
         ).value;
-        data.Stock = document.querySelector(
-            "#addEditModal input[name=Stock]"
+        data.akun = document.querySelector(
+            "#addEditModal input[name=akun]"
         ).value;
-        data.Category = document.querySelector(
-            "#addEditModal input[name=Category]:checked"
-        )
-            ? document.querySelector(
-                  "#addEditModal input[name=Category]:checked"
-              ).value || ""
-            : "";
-        data.Tag = document.querySelector(
-            "#addEditModal input[name=Tag]:checked"
-        )
-            ? document.querySelector("#addEditModal input[name=Tag]:checked")
-                  .value || ""
-            : "";
-        data.Check = "";
+        data.deskripsi = document.querySelector(
+            "#addEditModal input[name=deskripsi]"
+        ).value;
         return data;
     }
 

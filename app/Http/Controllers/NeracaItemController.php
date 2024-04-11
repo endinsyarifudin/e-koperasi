@@ -107,13 +107,43 @@ class NeracaItemController extends Controller
         //
     }
 
-    public function update(UpdateNeracaItemRequest $request, NeracaItem $neracaItem)
+    public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'kategori_id' => 'required',
+            'jenis_id' => 'required',
+            'neraca_item' => 'required',
+            'akun' => 'required',
+            'deskripsi' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        $neracaItem = NeracaItem::findOrFail($id);
+
+        $neracaItem->kategori_id = $request->kategori_id;
+        $neracaItem->jenis_id = $request->jenis_id;
+        $neracaItem->neraca_item = $request->neraca_item;
+        $neracaItem->akun = $request->akun;
+        $neracaItem->deskripsi = $request->deskripsi;
+
+        $neracaItem->save();
+
+        return response()->json(['message' => 'Data updated successfully', 'data' => $neracaItem], 200);
     }
-    public function destroy(NeracaItem $neracaItem)
+
+    public function destroy($id)
     {
-        //
+        try {
+            $neracaItem = NeracaItem::findOrFail($id); //  ID
+            $neracaItem->delete();
+
+            return response()->json(['message' => 'data deleted successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Failed to delete data'], 500);
+        }
     }
 
     public function getJenisByKategori(Request $request)

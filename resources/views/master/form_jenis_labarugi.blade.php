@@ -23,23 +23,23 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    {!! Form::model($jenisNeraca, [
-                        'route' => isset($jenisNeraca->id) ? ['jenisneraca.update', $jenisNeraca->id] : 'jenisneraca.store',
-                        'method' => isset($jenisNeraca->id) ? 'PUT' : 'POST',
+                    {!! Form::model($jenisLabarugi, [
+                        'route' => isset($jenisLabarugi->id) ? ['jenislabarugi.update', $jenisLabarugi->id] : 'jenislabarugi.store',
+                        'method' => isset($jenisLabarugi->id) ? 'PUT' : 'POST',
                     ]) !!}
 
                     <div class="form-group mb-3">
                         {!! Form::label('kategori_id', 'Kategori & Sub-Kategori') !!}
-                        {!! Form::select('kategori_id', $kategori_id, null, ['class' => 'form-control mt-1', 'id' => 'kategori']) !!}
+                        {!! Form::select('kategori_id', $kategori, null, ['class' => 'form-control mt-1', 'id' => 'kategori']) !!}
                         <span class="text-danger">{{ $errors->first('kategori_id') }}</span>
                     </div>
 
                     <div class="form-group mb-3">
-                        {!! Form::label('jenis', 'Jenis') !!}
-                        {!! Form::text('jenis', null, [
+                        {!! Form::label('jenis_labarugi', 'Jenis Laba Rugi') !!}
+                        {!! Form::text('jenis_labarugi', null, [
                             'class' => 'form-control mt-1',
                         ]) !!}
-                        <span class="text-danger">{{ $errors->first('jenis') }}</span>
+                        <span class="text-danger">{{ $errors->first('jenis_labarugi') }}</span>
                     </div>
 
                     <div class="form-group mb-3">

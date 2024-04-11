@@ -33,7 +33,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header align-items-end">
-                    <h5 class="card-title mb-0">Saldo Akhir saat ini: {{ formatRupiah($saldoAkhir) }}</h5>
+                    {{-- <h5 class="card-title mb-0">Saldo Akhir saat ini: {{ $saldoAkhir }}</h5> --}}
                 </div>
                 <div class="card-body">
                     {!! Form::model($kas, [
@@ -46,29 +46,29 @@
                         {!! Form::date('tanggal', $kas->tanggal ?? now(), ['class' => 'form-control']) !!}
                         <span class="text-danger">{{ $errors->first('tanggal') }}</span>
                     </div>
-                    <div class="form-group mb-3 ">
-                        {!! Form::label('jenis', 'Kategori') !!}
-                        <div class="form-check mt-2">
-                            {!! Form::radio('jenis', 'pendapatan', true, ['class' => 'form-check-input', 'id' => 'pendapatan']) !!}
-                            {!! Form::label('pendapatan', 'Pengeluaran', ['class' => 'form-check-label']) !!}
-                        </div>
-                        <div class="form-check">
-                            {!! Form::radio('jenis', 'pengeluaran', false, ['class' => 'form-check-input', 'id' => 'pengeluaran']) !!}
-                            {!! Form::label('pengeluaran', 'Pendapatan', ['class' => 'form-check-label']) !!}
-                        </div>
-                        <span class="text-danger">{{ $errors->first('jenis') }}</span>
-                    </div>
-
                     <div class="form-group mb-3">
                         {!! Form::label('kategori', 'Kategori') !!}
-                        {!! Form::text('kategori', null, ['class' => 'form-control', 'placeholder' => 'Masukkan Kategori']) !!}
+                        {!! Form::select('kategori', ['pendapatan' => 'Pendapatan', 'pengeluaran' => 'Pengeluaran'], null, [
+                            'class' => 'form-control',
+                            'id' => 'kategori',
+                        ]) !!}
                         <span class="text-danger">{{ $errors->first('kategori') }}</span>
                     </div>
 
+
                     <div class="form-group mb-3">
-                        {!! Form::label('keterangan', 'Keterangan') !!}
-                        {!! Form::text('keterangan', null, ['class' => 'form-control', 'placeholder' => 'Masukkan Keterangan']) !!}
-                        <span class="text-danger">{{ $errors->first('keterangan') }}</span>
+                        {!! Form::label('jenis_id', 'Jenis') !!}
+                        {!! Form::select('jenis_id', $jenisOptions, null, [
+                            'class' => 'form-control',
+                            'placeholder' => '- Pilih Jenis -',
+                        ]) !!}
+                        <span class="text-danger">{{ $errors->first('jenis_id') }}</span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        {!! Form::label('uraian', 'Uraian') !!}
+                        {!! Form::text('uraian', null, ['class' => 'form-control', 'placeholder' => 'Masukkan Keterangan']) !!}
+                        <span class="text-danger">{{ $errors->first('uraian') }}</span>
                     </div>
 
                     <div class="form-group mb-3">

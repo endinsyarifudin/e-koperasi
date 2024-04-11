@@ -18,7 +18,12 @@ class Kas extends Model
 
     public function createdBy()
     {
-        return $this->belongsTo(User::class, 'created_by');
+        return $this->belongsTo(User::class, 'created_by',);
+    }
+
+    public function jenis()
+    {
+        return $this->belongsTo(Jenis::class, 'jenis_id');
     }
 
     public function scopeSaldoAkhir($query, $koperasiId = null)

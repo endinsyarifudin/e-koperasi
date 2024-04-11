@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Jenis;
 use App\Models\Kas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -10,63 +11,73 @@ class KasController extends Controller
 {
     public function index()
     {
-        $kas = Kas::latest();
+        $kas = Kas::where('koperasi_id', auth()->user()->koperasi_id)->get();
         $title = 'Neraca Keuangan';
         return view('kas_index', compact('kas', 'title'));
+    }
+    public function index2()
+    {
+        $kas = Kas::where('koperasi_id', auth()->user()->koperasi_id)->get();
+        $title = 'Neraca Keuangan';
+        return view('kas_index2', compact('kas', 'title'));
     }
 
     public function dataKas(Request $request)
     {
-        $rowLimit = isset($request->length) ? $request->length : '10';
+        $userKoperasiId = auth()->user()->koperasi_id;
+
+        $rowLimit = isset($request->length) ? $request->length : 10;
         $offset = isset($request->start) ? $request->start : 0;
         $search = isset($request->search['value']) ? $request->search['value'] : '';
         $draw = isset($request->draw) ? $request->draw : 1;
 
-        $data = Kas::with('createdBy')->select(
-            'id',
-            'koperasi_id',
-            'tanggal',
-            'kategori',
-            'kode_trx',
-            'jenis_id',
-            'uraian',
-            'jumlah',
-            'saldo_akhir',
-            'created_by',
-        );
+        $data = Kas::where('koperasi_id', $userKoperasiId)
+            ->select(
+                'id',
+                'koperasi_id',
+                'tanggal',
+                'kategori',
+                'kode_trx',
+                'jenis_id',
+                'uraian',
+                'jumlah',
+                'saldo_akhir',
+                'created_by'
+            );
 
         if ($search != '') {
             $data->where('tanggal', 'like', '%' . $search . '%')
-                ->orWhere('keterangan', 'like', '%' . $search . '%')
-                ->orWhere('kategori', 'like', '%' . $search . '%');
+                ->orWhere('uraian', 'like', '%' . $search . '%')
+                ->orWhere('kode_trx', 'like', '%' . $search . '%');
         }
 
-        $kas = $data->offset($offset)->limit($rowLimit)->get();
         $totalFiltered = $data->count();
-
-        $kasTransformed = $kas->map(function ($item) {
-            $item->created_by = $item->createdBy->name ?? '';
-            unset($item->createdBy);
-            return $item;
-        });
+        $kas = $data->offset($offset)->limit($rowLimit)->get();
 
         $response = [
-            'data' => $kasTransformed,
+            'data' => $kas,
             "draw" => intval($draw),
             "recordsFiltered" => $totalFiltered,
-            "recordsTotal" => Kas::count(),
+            "recordsTotal" => $totalFiltered
         ];
 
         return response()->json($response, 200);
     }
 
 
+
+
     public function create()
     {
+        // $kas = Kas::where('koperasi_id', auth()->user()->koperasi_id)->first();
+        // if (!$kas) {
+        //     $kas = new Kas();
+        // }
         $kas = new Kas();
         $title = 'Transaksi Baru';
         $saldoAkhir = Kas::SaldoAkhir();
-        return view('form_kas', compact('kas', 'saldoAkhir', 'title'));
+        $jenisOptions = Jenis::pluck('name', 'id');
+        return view('form_kas', compact('kas', 'saldoAkhir', 'title', 'jenisOptions'));
     }
 
     public function store(Request $request)
@@ -78,12 +89,24 @@ class KasController extends Controller
             'uraian' => 'required',
             'jumlah' => 'required|numeric',
         ]);
-        $saldoAkhir = Kas::SaldoAkhir();
-        if ($requestData['kategori'] == 'pendapatan') {
-            $saldoAkhir += $requestData['jumlah'];
+        // dd($requestData);
+
+        $kas = Kas::where('koperasi_id', auth()->user()->koperasi_id)
+            ->orderBy('tanggal', 'desc')
+            ->first();
+        $saldoAkhir = 0;
+        if ($kas != null) {
+            //saldo ditambah jumlah transaksi masuk
+            if ($requestData['kategori'] == 'pendapatan') {
+                $saldoAkhir = $kas->saldo_akhir + $requestData['jumlah'];
+            } else {
+                $saldoAkhir = $kas->saldo_akhir - $requestData['jumlah'];
+            }
         } else {
-            $saldoAkhir -= $requestData['jumlah'];
+            //saldo pertama
+            $saldoAkhir = $requestData['jumlah'];
         }
+        // dd($saldoAkhir);
 
         if ($saldoAkhir <= -1) {
             flash('Saldo tidak cukup, transaksi gagal')->error();
@@ -148,11 +171,11 @@ class KasController extends Controller
 
         $saldo = 0;
 
-        foreach ($transaction as $transaction) {
-            if ($transaction->jenis == 'pendapatan') {
-                $saldo += $transaction->jumlah;
+        foreach ($transaction as $trx) {
+            if ($trx->jenis == 'pendapatan') {
+                $saldo += $trx->jumlah;
             } else {
-                $saldo -= $transaction->jumlah;
+                $saldo -= $trx->jumlah;
             }
         }
         return $saldo;

@@ -95,6 +95,11 @@
                             <span class="label">Neraca</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="{{ route('kas2') }}">
+                            <span class="label">Neraca R Web</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
             <li>
@@ -138,7 +143,7 @@
                 <ul id="pages">
                     <li>
                         <a href="{{ route('jenisneraca.index') }}">
-                            <span class="label">Neraca</span>
+                            <span class="label">Akun Neraca</span>
                         </a>
                         <ul id="authentication">
                             <li>
@@ -164,13 +169,13 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="#blog" data-href="/Pages/Blog">
-                            <span class="label">Laba Rugi</span>
+                        <a href="#blog" data-href="/jenislabarugi/index">
+                            <span class="label">Akun Laba Rugi</span>
                         </a>
                         <ul id="blog">
                             <li>
-                                <a href="/Pages/Blog/Home">
-                                    <span class="label">Home</span>
+                                <a href="{{ route('jenislabarugi.index') }}">
+                                    <span class="label">Jenis Laba Rugi</span>
                                 </a>
                             </li>
                             <li>
@@ -191,48 +196,18 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="#miscellaneous" data-href="/Pages/Miscellaneous">
-                            <span class="label">Miscellaneous</span>
+                        <a href="#rekening" data-href="{{ route('rekening.index') }}">
+                            <span class="label">Rekening & Kas</span>
                         </a>
                         <ul id="miscellaneous">
                             <li>
-                                <a href="/Pages/Miscellaneous/Faq">
-                                    <span class="label">Faq</span>
+                                <a href="{{ route('rekening.index') }}">
+                                    <span class="label">Data Rekening</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="/Pages/Miscellaneous/KnowledgeBase">
                                     <span class="label">Knowledge Base</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/Pages/Miscellaneous/Error">
-                                    <span class="label">Error</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/Pages/Miscellaneous/ComingSoon">
-                                    <span class="label">Coming Soon</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/Pages/Miscellaneous/Pricing">
-                                    <span class="label">Pricing</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/Pages/Miscellaneous/Search">
-                                    <span class="label">Search</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/Pages/Miscellaneous/Mailing">
-                                    <span class="label">Mailing</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/Pages/Miscellaneous/Empty">
-                                    <span class="label">Empty</span>
                                 </a>
                             </li>
                         </ul>
@@ -254,66 +229,8 @@
                             </li>
                         </ul>
                     </li>
-                    <li>
-                        <a href="#profile" data-href="/Pages/Profile">
-                            <span class="label">Profile</span>
-                        </a>
-                        <ul id="profile">
-                            <li>
-                                <a href="/Pages/Profile/Standard">
-                                    <span class="label">Standard</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/Pages/Profile/Settings">
-                                    <span class="label">Settings</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
                 </ul>
             </li>
-            <li>
-                <a href="#master" data-href="#master">
-                    <i data-acorn-icon="notebook-1" class="icon" data-acorn-size="18"></i>
-                    <span class="label">Master</span>
-                </a>
-                <ul id="master">
-                    <li>
-                        <a href="{{ route('jenisneraca.index') }}">
-                            <span class="label">Neraca</span>
-                        </a>
-                        <ul>
-                            <li>
-                                <a href="{{ route('jenisneraca.index') }}">
-                                    <span class="label">Jenis Neraca</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="{{ route('jenis.index') }}">
-                            <span class="label">Jenis</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('rekening.index') }}">
-                            <span class="label">Rekening</span>
-                        </a>
-                    </li>
-                    <li>
-                        {{-- <a href="{{ route('admin.rekening') }}">
-                        <span class="label">Data Rekening</span>
-                        </a>
-                    </li> --}}
-                    <li>
-                        <a href="/Pages/Blog/Detail">
-                            <span class="label">Detail</span>
-                        </a>
-                    </li>
-
-            </li>
-
         </ul>
         </li>
         </ul>
@@ -322,21 +239,13 @@
 
     <!-- Mobile Buttons Start -->
     <div class="mobile-buttons-container">
-        <!-- Scrollspy Mobile Button Start -->
         <a href="#" id="scrollSpyButton" class="spy-button" data-bs-toggle="dropdown">
             <i data-acorn-icon="menu-dropdown"></i>
         </a>
-        <!-- Scrollspy Mobile Button End -->
-
-        <!-- Scrollspy Mobile Dropdown Start -->
         <div class="dropdown-menu dropdown-menu-end" id="scrollSpyDropdown"></div>
-        <!-- Scrollspy Mobile Dropdown End -->
-
-        <!-- Menu Button Start -->
         <a href="#" id="mobileMenuButton" class="menu-button">
             <i data-acorn-icon="menu"></i>
         </a>
-        <!-- Menu Button End -->
     </div>
     <!-- Mobile Buttons End -->
 </div>

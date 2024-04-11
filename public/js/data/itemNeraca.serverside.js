@@ -233,25 +233,31 @@ class RowsServerSide {
     // Edit button inside th modal click
     _editRowFromModal() {
         const data = this._rowToEdit.data();
-        const formData = Object.assign(data, this._getFormData());
+        const formData = this._getFormData();
+        const id = data.id;
         this._addSpinner();
-        fetch(this._apiPath + "/api/neracaitem", {
+        fetch("/api/neracaitem/" + id, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(data),
+            body: JSON.stringify(formData),
         })
             .then((response) => {
-                response.json();
-                this._removeSpinner();
+                if (!response.ok) {
+                    throw new Error("Failed to update ");
+                }
+                return response.json();
             })
             .then((data) => {
+                this._removeSpinner();
                 this._datatable.draw();
             })
             .catch((error) => {
                 console.error("Error:", error);
+                this._removeSpinner();
             });
+
         this._datatableExtend.unCheckAllRows();
         this._datatableExtend.controlCheckAll();
     }
@@ -291,29 +297,32 @@ class RowsServerSide {
     _onDeleteClick() {
         const selected = this._datatableExtend.getSelectedRows();
         const data = selected.data();
+        const idsToDelete = data.map((item) => item.id);
+
         this._addSpinner();
-        const idsToDelte = { ids: [] };
-        for (let i = 0; i < data.length; i++) {
-            idsToDelte.ids.push(data[i].id);
-        }
-        fetch(this._apiPath + "/products/delete", {
+
+        fetch(this._apiPath + "/api/neracaitem/" + idsToDelete.join(","), {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(idsToDelte),
         })
             .then((response) => {
-                response.json();
-                this._removeSpinner();
+                if (!response.ok) {
+                    throw new Error("Failed to delete barang");
+                }
+                return response.json();
             })
             .then((data) => {
+                this._removeSpinner();
                 console.log("Success:", data);
                 this._datatable.draw();
             })
             .catch((error) => {
                 console.error("Error:", error);
+                this._removeSpinner();
             });
+
         this._datatableExtend.unCheckAllRows();
         this._datatableExtend.controlCheckAll();
     }

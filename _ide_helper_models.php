@@ -16,6 +16,30 @@ namespace App\Models{
  * 
  *
  * @property int $id
+ * @property string $Nama_desa
+ * @property int $Kec_id
+ * @property string|null $Tag
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property \Illuminate\Support\Carbon $updated_at
+ * @property-read \App\Models\Kecamatan|null $kecamatan
+ * @method static \Illuminate\Database\Eloquent\Builder|Desa newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Desa newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Desa query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Desa whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Desa whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Desa whereKecId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Desa whereNamaDesa($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Desa whereTag($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Desa whereUpdatedAt($value)
+ */
+	class Desa extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property int $id
  * @property string $name
  * @property string $kategori
  * @property string|null $deskripsi
@@ -41,8 +65,34 @@ namespace App\Models{
  *
  * @property int $id
  * @property int $kategori_id
+ * @property string $jenis_labarugi
  * @property string|null $akun
+ * @property string|null $deskripsi
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\LabarugiKategori|null $kategori
+ * @method static \Illuminate\Database\Eloquent\Builder|JenisLabarugi newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|JenisLabarugi newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|JenisLabarugi query()
+ * @method static \Illuminate\Database\Eloquent\Builder|JenisLabarugi whereAkun($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|JenisLabarugi whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|JenisLabarugi whereDeskripsi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|JenisLabarugi whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|JenisLabarugi whereJenisLabarugi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|JenisLabarugi whereKategoriId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|JenisLabarugi whereUpdatedAt($value)
+ */
+	class JenisLabarugi extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property int $id
  * @property string $jenis
+ * @property string|null $akun
+ * @property int $kategori_id
  * @property string $deskripsi
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -78,6 +128,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\User|null $createdBy
+ * @property-read \App\Models\Jenis|null $jenis
  * @method static \Database\Factories\KasFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Kas newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Kas newQuery()
@@ -104,6 +155,31 @@ namespace App\Models{
  * 
  *
  * @property int $id
+ * @property string $Nama_kec
+ * @property int|null $Kab_id
+ * @property string|null $Tag
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Desa> $desa
+ * @property-read int|null $desa_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Kecamatan newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Kecamatan newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Kecamatan query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Kecamatan whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Kecamatan whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Kecamatan whereKabId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Kecamatan whereNamaKec($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Kecamatan whereTag($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Kecamatan whereUpdatedAt($value)
+ */
+	class Kecamatan extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property int $id
  * @property string $nama
  * @property string $alamat
  * @property string $telp
@@ -123,6 +199,29 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Koperasi whereUpdatedAt($value)
  */
 	class Koperasi extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property int $id
+ * @property string $labarugi_kategori
+ * @property string|null $akun
+ * @property string $deskripsi
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|LabarugiKategori newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|LabarugiKategori newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|LabarugiKategori query()
+ * @method static \Illuminate\Database\Eloquent\Builder|LabarugiKategori whereAkun($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|LabarugiKategori whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|LabarugiKategori whereDeskripsi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|LabarugiKategori whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|LabarugiKategori whereLabarugiKategori($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|LabarugiKategori whereUpdatedAt($value)
+ */
+	class LabarugiKategori extends \Eloquent {}
 }
 
 namespace App\Models{

@@ -72,36 +72,31 @@ class JneracaController extends Controller
         return redirect()->route('jenisneraca.index')->with('success', 'Data berhasil disimpan.');
     }
 
-    public function show(Neraca $jenisNeraca, $id)
-    {
-        $jenisNeraca = Neraca::findOrFail($id);
-        return view('master.jenisNeraca.show', compact('jenisNeraca'));
-    }
-
     public function edit($id)
     {
         $title = 'Ubah Data Jenis Neraca';
-        $jenisNeraca = Neraca::findOrFail($id);
-        return view('master.form_jenis_neraca', compact('jenisNeraca', 'title'));
+        $jenisNeraca = JenisNeraca::findOrFail($id);
+        $kategori_id = NeracaKategori::pluck('kategori', 'id')->toArray(); // Ambil data kategori untuk dropdown
+        return view('master.form_jenis_neraca', compact('jenisNeraca', 'kategori_id', 'title'));
     }
 
     public function update(Request $request, $id)
     {
         $request->validate([
-            'kategori' => 'required|in:Aset,Kewajiban dan Modal',
+            'kategori' => 'required',
             'akun' => 'required',
             'jenis' => 'required',
             'deskripsi' => 'nullable',
         ]);
 
-        $jenisNeraca = Neraca::findOrFail($id);
+        $jenisNeraca = JenisNeraca::findOrFail($id);
         $jenisNeraca->update($request->all());
         return redirect()->route('jenisneraca.index')->with('success', 'Data berhasil diperbarui');
     }
 
     public function destroy($id)
     {
-        $jenisNeraca = Neraca::findOrFail($id);
+        $jenisNeraca = JenisNeraca::findOrFail($id);
         $jenisNeraca->delete();
 
         return redirect()->route('jenisneraca.index')->with('success', 'Data rekening berhasil dihapus');

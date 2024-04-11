@@ -1,41 +1,49 @@
-class EditableBoxed {
+class RowsServerSide {
     constructor() {
         if (!jQuery().DataTable) {
             console.log("DataTable is null!");
             return;
         }
 
-        this._rowToEdit; // Selected single row which will be edited
-        this._datatable; // Datatable instance
-        this._currentState; // Edit or add state of the modal
-        this._datatableExtend; // Controls and select helper
-        this._addEditModal; // Add or edit modal
-        this._staticHeight = 42; // Datatable single item height
+        // Selected single row which will be edited
+        this._rowToEdit;
+
+        // Datatable instance
+        this._datatable;
+
+        // Edit or add state of the modal
+        this._currentState;
+
+        // Controls and select helper
+        this._datatableExtend;
+
+        // Add or edit modal
+        this._addEditModal;
+
+        // Datatable single item height
+        this._staticHeight = 62;
+
+        // Path to the api for getting and setting items
         this._apiPath = "http://localhost:8000";
 
         this._createInstance();
         this._addListeners();
         this._extend();
         this._initBootstrapModal();
-        this._setInlineHeight();
     }
 
     // Creating datatable instance
     _createInstance() {
         const _this = this;
-        this._datatable = jQuery("#datatableBoxed").DataTable({
+        this._datatable = jQuery("#datatableRowsServerSide").DataTable({
+            scrollX: true,
             buttons: ["copy", "excel", "csv", "print"],
-            responsive: true,
-            info: true,
-            paging: true,
-            ajax: {
-                url: this._apiPath + "/api/dataKas/",
-                type: "GET", // Menggunakan metode GET
-            },
+            info: false,
             processing: true,
             serverSide: true,
-            order: [], // Clearing default order
-            sDom: '<"row"<"col-sm-12"<"table-container"<"card"<"card-body half-padding"t>>>>><"row"<"col-12 mt-3"p>>', // Hiding all other dom elements except table and pagination
+            responsive: true,
+            ajax: this._apiPath + "/api/dataKas/",
+            sDom: '<"row"<"col-sm-12"<"table-container"t>r>><"row"<"col-12"p>>', // Hiding all other dom elements except table and pagination
             pageLength: 10,
             columns: [
                 {
@@ -43,62 +51,44 @@ class EditableBoxed {
                     render: function (data, type, row, meta) {
                         return meta.row + meta.settings._iDisplayStart + 1;
                     },
-                    className: "text-end",
                 },
-                {
-                    data: "tanggal",
-                    render: function (data, type, row, meta) {
-                        if (type === "display" || type === "filter") {
-                            var date = new Date(data);
-                            var day = date
-                                .getDate()
-                                .toString()
-                                .padStart(2, "0");
-                            var month = (date.getMonth() + 1)
-                                .toString()
-                                .padStart(2, "0");
-                            var year = date.getFullYear().toString();
-                            return day + "/" + month + "/" + year;
-                        } else {
-                            return data;
-                        }
-                    },
-                    className: "text-center",
-                },
-                { data: "kode_trx" },
-                { data: "name" },
-                { data: "uraian" },
-                {
-                    data: null,
-                    render: function (data, type, row, meta) {
-                        if (row.kategori == "pendapatan") {
-                            return row.jumlah.toLocaleString("id-ID");
-                        } else {
-                            return "";
-                        }
-                    },
-                    className: "text-end",
-                },
-                {
-                    data: null,
-                    render: function (data, type, row, meta) {
-                        if (row.kategori == "pengeluaran") {
-                            return row.jumlah.toLocaleString("id-ID");
-                        } else {
-                            return "";
-                        }
-                    },
-                    className: "text-end",
-                },
-                {
-                    data: "saldo_akhir",
-                    render: function (data, type, row, meta) {
-                        return data.toLocaleString("id-ID");
-                    },
-                    className: "text-end",
-                },
-                { data: "created_by", className: "text-center" },
-
+                // {
+                //     data: "tanggal",
+                //     render: function (data, type, row, meta) {
+                //         if (type === "display" || type === "filter") {
+                //             var date = new Date(data);
+                //             var day = date
+                //                 .getDate()
+                //                 .toString()
+                //                 .padStart(2, "0");
+                //             var month = (date.getMonth() + 1)
+                //                 .toString()
+                //                 .padStart(2, "0");
+                //             var year = date.getFullYear().toString();
+                //             return day + "/" + month + "/" + year;
+                //         } else {
+                //             return data;
+                //         }
+                //     },
+                // },
+                // { data: "kategori" },
+                // { data: "keterangan" },
+                // {
+                //     data: null,
+                //     render: function (data, type, row, meta) {
+                //         return row.jenis == "pendapatan" ? row.jumlah : "";
+                //     },
+                //     className: "text-end",
+                // },
+                // {
+                //     data: null,
+                //     render: function (data, type, row, meta) {
+                //         return row.jenis == "pengeluaran" ? row.jumlah : "";
+                //     },
+                //     className: "text-end",
+                // },
+                // { data: "saldo_akhir", className: "text-end" },
+                // { data: "created_by", className: "text-center" },
                 {
                     data: null,
                     render: function (data, type, row, meta) {
@@ -123,35 +113,28 @@ class EditableBoxed {
                 _this._setInlineHeight();
             },
             columnDefs: [
-                //     // Adding Name content as an anchor with a target #
-                //     {
-                //         targets: 0,
-                //         render: function (data, type, row, meta) {
-                //             return (
-                //                 '<a class="list-item-heading body" href="#">' +
-                //                 data +
-                //                 "</a>"
-                //             );
-                //         },
+                // Adding Name content as an anchor with a target #
+                // {
+                //     targets: 0,
+                //     render: function (data, type, row, meta) {
+                //         return (
+                //             '<a class="list-item-heading body" href="#">' +
+                //             data +
+                //             "</a>"
+                //         );
                 //     },
-                //     // Adding Tag content as a span with a badge class
-                //     {
-                //         targets: 4,
-                //         render: function (data, type, row, meta) {
-                //             return (
-                //                 '<span class="badge bg-outline-primary">' +
-                //                 data +
-                //                 "</span>"
-                //             );
-                //         },
+                // },
+                // Adding Tag content as a span with a badge class
+                // {
+                //     targets: 6,
+                //     render: function (data, type, row, meta) {
+                //         return (
+                //             '<span class="badge bg-outline-primary">' +
+                //             data +
+                //             "</span>"
+                //         );
                 //     },
-                //     // Adding checkbox for Check column
-                //     {
-                //         targets: 5,
-                //         render: function (data, type, row, meta) {
-                //             return '<div class="form-check float-end mt-1"><input type="checkbox" class="form-check-input"></div>';
-                //         },
-                //     },
+                // },
             ],
         });
     }
@@ -231,9 +214,18 @@ class EditableBoxed {
             return;
         }
         const pageLength = this._datatable.page.len();
-        document.querySelector(
-            ".data-table-boxed .table-container .card"
-        ).style.height = this._staticHeight * pageLength + 80 + "px";
+        document.querySelector(".dataTables_scrollBody").style.height =
+            this._staticHeight * pageLength + "px";
+    }
+
+    // Showing spinner for server side operations
+    _addSpinner() {
+        document.body.classList.add("spinner");
+    }
+
+    // Removing spinner after completing server side operations
+    _removeSpinner() {
+        document.body.classList.remove("spinner");
     }
 
     // Add or edit button inside the modal click
@@ -266,7 +258,24 @@ class EditableBoxed {
     _editRowFromModal() {
         const data = this._rowToEdit.data();
         const formData = Object.assign(data, this._getFormData());
-        this._datatable.row(this._rowToEdit).data(formData).draw();
+        this._addSpinner();
+        fetch(this._apiPath + "/products/update", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        })
+            .then((response) => {
+                response.json();
+                this._removeSpinner();
+            })
+            .then((data) => {
+                this._datatable.draw();
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
         this._datatableExtend.unCheckAllRows();
         this._datatableExtend.controlCheckAll();
     }
@@ -274,14 +283,56 @@ class EditableBoxed {
     // Add button inside th modal click
     _addNewRowFromModal() {
         const data = this._getFormData();
-        this._datatable.row.add(data).draw();
+        this._addSpinner();
+        fetch(this._apiPath + "/products/add", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        })
+            .then((response) => {
+                response.json();
+                this._removeSpinner();
+            })
+            .then((data) => {
+                this._datatable.draw();
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
         this._datatableExtend.unCheckAllRows();
+        this._datatableExtend.controlCheckAll();
     }
 
     // Delete icon click
     _onDeleteClick() {
         const selected = this._datatableExtend.getSelectedRows();
-        selected.remove().draw();
+        const data = selected.data();
+        this._addSpinner();
+        const idsToDelte = { ids: [] };
+        for (let i = 0; i < data.length; i++) {
+            idsToDelte.ids.push(data[i].id);
+        }
+        fetch(this._apiPath + "/products/delete", {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(idsToDelte),
+        })
+            .then((response) => {
+                response.json();
+                this._removeSpinner();
+            })
+            .then((data) => {
+                console.log("Success:", data);
+                this._datatable.draw();
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+        this._datatableExtend.unCheckAllRows();
         this._datatableExtend.controlCheckAll();
     }
 

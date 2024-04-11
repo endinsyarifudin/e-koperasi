@@ -7,7 +7,7 @@ use App\Models\NeracaKategori;
 // use App\Http\Requests\UpdateJenisRequest;
 use Illuminate\Http\Request;
 
-class KategoriController extends Controller
+class KatNeracaController extends Controller
 {
     public function index()
     {
@@ -66,41 +66,33 @@ class KategoriController extends Controller
 
         // dd($requestData);
 
-        $data = new Jenis();
+        $data = new NeracaKategori();
         $data->fill($requestData);
         $data->save();
         flash('Data berhasil disimpan')->success();
 
         return redirect()->route('jenis.index');
     }
-
-    public function show(Jenis $jenis)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'kategori' => 'required',
+            'akun' => 'required',
+            'jenis' => 'required',
+            'deskripsi' => 'nullable',
+        ]);
+
+        $neracaKategori = NeracaKategori::findOrFail($id);
+        $neracaKategori->update($request->all());
+        return redirect()->route('neracakteori.index')->with('success', 'Data berhasil diperbarui');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Jenis $jenis)
+    public function destroy($id)
     {
-        //
-    }
+        $neracaKategori = NeracaKategori::findOrFail($id);
+        $neracaKategori->delete();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateJenisRequest $request, Jenis $jenis)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Jenis $jenis)
-    {
-        //
+        return redirect()->route('neracakategori.index')->with('success', 'Data rekening berhasil dihapus');
     }
 
     public function getNamaKategori()
